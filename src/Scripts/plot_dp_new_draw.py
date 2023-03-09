@@ -41,7 +41,7 @@ t_1, p1_1, p2_1, p3_1, p4_1, p5_1, p6_1, p7_1, p8_1, p9_1, p10_1, p11_1, p12_1, 
 # t_4, p1_4, p2_4, p3_4, p4_4, p5_4, p6_4, p7_4, p8_4, p9_4, p10_4, p11_4, p12_4, p13_4, p14_4, p15_4, p16_4, p17_4, p18_4 = np.loadtxt(wdir + inj_f_4, unpack=True)
 # vectorization
 # vectorization
-p_0 = [p1_0, p2_0, p3_0, p4_0, p5_0, p6_0, p7_0, p8_0, p9_0, p10_0, p11_0, p12_0, p13_0, p14_0, p15_0, p16_0, p17_0, p18_1] 
+p_0 = [p1_0, p2_0, p3_0, p4_0, p5_0, p6_0, p7_0, p8_0, p9_0, p10_0, p11_0, p12_0, p13_0, p14_0, p15_0, p16_0, p17_0, p18_0] 
 p_1 = [p1_1, p2_1, p3_1, p4_1, p5_1, p6_1, p7_1, p8_1, p9_1, p10_1, p11_1, p12_1, p13_1, p14_1, p15_1, p16_1, p17_1, p18_1]
 # p_2 = [p1_2, p2_2, p3_2, p4_2, p5_2, p6_2, p7_2, p8_2, p9_2, p10_2, p11_2, p12_2, p13_2, p14_2, p15_2, p16_2, p17_2, p18_2] 
 # p_3 = [p1_3, p2_3, p3_3, p4_3, p5_3, p6_3, p7_3, p8_3, p9_3, p10_3, p11_3, p12_3, p13_3, p14_3, p15_3, p16_3, p17_3, p18_3] 
@@ -63,12 +63,12 @@ l = [r'Case\,2']
 M = 1.25
 m = 0.50
 M1 = 29
-
+# print(y[0][17])
 for i in range(len(x)):
   #Ub = m * Qc / (np.pi * (D / 2)**2) / (60**2)  # [m/s]
   Ub = 4.99 # [m/s]
   x[i] = (x[i] - np.min(x[i])) / D * Ub
-  y[i] = [y[i][j] / (rho * Ub**2.) for j in range(17)] # p normalization
+  y[i] = [y[i][j] / (rho * Ub**2.) for j in range(18)] # p normalization
   #y[i] = [y[i][j] / Ub for j in range(16)] # V normalization
   dt = 1.25e-5 / D * Ub  # only simulations
 
@@ -90,7 +90,7 @@ plt.subplots_adjust(left=0.052, bottom=0.2, top=0.8, right=0.95, wspace=0.104)
 
 for i in range(len(x)):
   #ax[0].plot(x[i], y[i][4], c[i], ls='solid')
-  ax[0].plot(x[i], y[i][4] - y[i][0], c[i], ls='solid')
+  ax[0].plot(x[i], (y[i][5]+y[i][6]+y[i][7]+y[i][8])/4 - y[i][0], c[i], ls='solid')
 
 #ax[0].set_xlim([0.0, 7])
 #ax[0].set_xlim([-2.0, 0])
@@ -119,7 +119,7 @@ atext = AnchoredText(r'$\Delta p/(\rho U_b^2)$',
                      prop = dict(size = 12),
                      frameon=True)
 max_length = np.max(x[0]) if np.max(x[0]) < np.max(x[1]) else np.max(x[1])
-ax[0].set_ylim([-10,12])
+# ax[0].set_ylim([-10,12])
 ax[0].set_xlim([0, max_length])
 ax[0].add_artist(atext)
 # ---------------------
@@ -137,6 +137,7 @@ for i in range(len(x)):
   y2 = abs(np.fft.fft(y[i][2] - y[i][0], norm='ortho'))
   y3 = abs(np.fft.fft(y[i][3] - y[i][0], norm='ortho'))
   y4 = abs(np.fft.fft(y[i][4] - y[i][0], norm='ortho'))
+
   y5 = abs(np.fft.fft(y[i][5] - y[i][0], norm='ortho'))
   y6 = abs(np.fft.fft(y[i][6] - y[i][0], norm='ortho'))
   y7 = abs(np.fft.fft(y[i][7] - y[i][0], norm='ortho'))
@@ -145,11 +146,12 @@ for i in range(len(x)):
   y10 = abs(np.fft.fft(y[i][10] - y[i][0], norm='ortho'))
   y11 = abs(np.fft.fft(y[i][11] - y[i][0], norm='ortho'))
   y12 = abs(np.fft.fft(y[i][12] - y[i][0], norm='ortho'))
-  y13 = abs(np.fft.fft(y[i][13] - y[i][0], norm='ortho'))
-  y14 = abs(np.fft.fft(y[i][14] - y[i][0], norm='ortho'))
-  y15 = abs(np.fft.fft(y[i][15] - y[i][0], norm='ortho'))
-  y16 = abs(np.fft.fft(y[i][16] - y[i][0], norm='ortho'))
-  fft = (y1 + y2 + y3 + y4 + y5 + y6 + y7 + y8 + y9 + y10 + y11 + y12 + y13 + y14 + y15 + y16) / 16
+  print(y[i][16])
+  y13 = abs(np.fft.fft(y[i][13] - y[i][17], norm='ortho'))
+  y14 = abs(np.fft.fft(y[i][14] - y[i][17], norm='ortho'))
+  y15 = abs(np.fft.fft(y[i][15] - y[i][17], norm='ortho'))
+  y16 = abs(np.fft.fft(y[i][16] - y[i][17], norm='ortho'))
+  fft = y1 + y2 + y3 + y4 + (y5 + y6 + y7 + y8)/4 + (y9 + y10 + y11 + y12)/4 + (y13 + y14 + y15 + y16)/4
   #fft_1 = (y1 + y2 + y3) / 3
     # fft_avg = fft_avg + fft
   #ax[1].plot(f, fft_1,
@@ -178,10 +180,10 @@ for i in range(len(x)):
   print("freq of the runnner    [-]: {0: .2e}".format(40.53333333333333*D/Ub))
   print("freq of the runnner x5 [-]: {0: .2e}".format(40.53333333333333*5*D/Ub))
 
-#ax[1].set_xlim([0.1, 6])
-ax[1].set_ylim([-5., 60])
+ax[1].set_xlim([0.1, 10])
+# ax[1].set_ylim([-5., 60])
 #ax[1].set_ylim([0.3, 25])
-ax[1].set_xlim([0.2, 4])
+# ax[1].set_xlim([0.2, 4])
 atext = AnchoredText(r'$f D / U_b$',
                      loc='lower right',
                      pad=0.15,

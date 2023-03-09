@@ -14,16 +14,16 @@ own.matplotlib_header()
 
 wdir = './'
 
-inj_f_1 = '../injections/right_values/grids/24mln_3_p'
-# inj_f_2 = '../injections/right_values/grids/5mln_3_p'
-# inj_f_3 = '../injections/right_values/grids/13mln_3_p'
-# inj_f_4 = '../injections/right_values/grids/24mln_3_p'
-#inj_f = 'probes_with_inj/U.dat'
+inj_f_1 = '../../data-samples/injections/right_values/grids/4mln_3_p'
+#inj_f_2 = '../../data-samples/injections/right_values/grids/13mln_3_p'
+#inj_f_3 = '../../data-samples/injections/right_values/grids/24mln_3_p'
+# inj_f_4 = '../../data-samples/injections/right_values/dif_places/24mln_3_down_2_p'
+inj_f = 'probes_with_inj/U.dat'
 #inj_f = 'probes_with_inj/V.dat'
 
 #les_f = 'probes_wout_inj/U.dat'
 #les_f = 'probes_wout_inj/V.dat'
-les_f = '../injections/right_values/dif_places/13mln_no_jet_p'
+les_f = '../../data-samples/injections/right_values/dif_places/13mln_no_jet_p'
 
 saveto = wdir
 
@@ -52,9 +52,9 @@ rho = 1.19  # [kg/m^3]
 D = 37.63 * 1e-3    # [m]
 Qc = 174.6  # [m^3/hour]
 
-# x = [t_0, t_1, t_2, t_3, t_4]
-# y = [p_0, p_1, p_2, p_3, p_4]
-# c = ['r', 'b', 'black', 'g', 'orange']
+# x = [t_0, t_1, t_2, t_3]
+# y = [p_0, p_1, p_2, p_3]
+# c = ['r', 'b', 'black', 'g']
 x = [t_0, t_1]
 y = [p_0, p_1]
 c = ['r', 'b']
@@ -105,7 +105,8 @@ atext = AnchoredText(r'$tU_b/D$',
                      frameon=True,
                      prop = dict(size = 12))
 ax[0].add_artist(atext)
-ax[0].set(title = ''' Сигнал давления Сетка: 24mln
+ax[0].set(title = ''' Сигнал давления
+Точка: 1
 Инжекция 3\%''')
 ax[0].title.set_size(10)
 # atext = AnchoredText(r'$V/U_b$',
@@ -117,8 +118,9 @@ atext = AnchoredText(r'$\Delta p/(\rho U_b^2)$',
                      bbox_transform=ax[0].transAxes,
                      prop = dict(size = 12),
                      frameon=True)
+max_length = np.max(x[0]) if np.max(x[0]) < np.max(x[1]) else np.max(x[1])
 ax[0].set_ylim([-10,12])
-ax[0].set_xlim([0,11.5])
+ax[0].set_xlim([0, max_length])
 ax[0].add_artist(atext)
 # ---------------------
 # FFT
@@ -162,7 +164,8 @@ for i in range(len(x)):
              marker='',
              ms=5,
              mfc='none')
-  ax[1].set(title = '''Спектр сигнала Сетка: 24mln
+  ax[1].set(title = '''Спектр сигнала
+Точка:1
   Инжекция 3\%''')
   ax[1].title.set_size(10)        
   # find local maximum
@@ -205,5 +208,5 @@ plt.savefig(file_pdf, pad_inches=0)
 system('convert -density 300 ' + file_pdf + ' ' + file_png)
 system('file ' + file_pdf)
 
-plt.savefig('3% (24 mln).png')
+plt.savefig('3% (new).png')
 #plt.close()
